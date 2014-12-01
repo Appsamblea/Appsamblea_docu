@@ -8,6 +8,7 @@ En resumen:
 * Para añadir test propios a una aplicación que hayas creado, añade en su carpeta el archivo tests.py, donde has de poner los test.
 * Los test han de situarse en una clase que herede de unittest.TestCase:
 	* Toda actividad previa a los test ha de situarse en el método setUp(self). En el caso una aplicación app engine, hay que poner al menos:
+	
 		```python
 			# Primero, crear una instancia de la clase Testbed.
 			self.testbed = testbed.Testbed()
@@ -17,6 +18,7 @@ En resumen:
 			...
 		```
 	* Toda actividad posterior a los test ha de ir en un método tearDown(self). En el caso una aplicación app engine, hay que poner al menos:
+	
 		```python
 			self.testbed.deactivate()
 		```		
