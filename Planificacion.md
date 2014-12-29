@@ -5,8 +5,6 @@ El desarrollo de la primera iteración se llevará a cabo sobre unos documentos 
 También hay que tener en cuenta los distintos hitos que aparezcan en la asignatura CC así como los entregables en la asignatura DESSI
 
 ###Iteración 1 - 30 de noviembre
--	Implementar la interfaz gráfica de usuario del cliente en los XML
--	Implementar el fichero AndroidManifest
 -	Generar un proyecto común que resida en Git
 -	Logo de la aplicación
 -	Bocetos de la Interfaz gráfica en papel
@@ -28,4 +26,6 @@ También hay que tener en cuenta los distintos hitos que aparezcan en la asignat
 
 ###Iteracion 3 - 11 de enero
 -	Implementar interfaz gráfica del cliente
+-	Implementar la interfaz gráfica de usuario del cliente en los XML
+-	Implementar el fichero AndroidManifest
 
