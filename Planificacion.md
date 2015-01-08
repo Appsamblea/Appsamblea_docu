@@ -22,9 +22,10 @@ También hay que tener en cuenta los distintos hitos que aparezcan en la asignat
 -	Prototipo Justinmind
 -	Test de usabilidad
 -	Recorridos cognitivos
--	Pruebas con usuarios
 
-###Iteracion 3 - 11 de enero
+###Iteracion 3 - 18 de enero
+- Bocetos de alta fidelidad
+-	Pruebas con usuarios
 -	Implementar interfaz gráfica del cliente
 -	Implementar la interfaz gráfica de usuario del cliente en los XML
 -	Implementar el fichero AndroidManifest
