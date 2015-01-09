@@ -5,7 +5,7 @@
 - [X] Crear repositorio
 - [X] Inscripción en el concurso de Proyectos Libres de la UGR
 - [X] Crear un Issue con la etiqueta question
-- 
+ 
 ##PRÁCTICA 2:
 - [X] Explicar sistema de despliegue
 
