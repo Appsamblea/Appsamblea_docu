@@ -1,0 +1,601 @@
+-- MySQL dump 10.13  Distrib 5.5.40, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: appsamblea
+-- ------------------------------------------------------
+-- Server version	5.5.40-0ubuntu0.14.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `appsamblea`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `appsamblea` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `appsamblea`;
+
+--
+-- Table structure for table `acta`
+--
+
+DROP TABLE IF EXISTS `acta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `acta` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `texto` varchar(0) DEFAULT NULL,
+  `id_asamblea` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `asamblea_acta` (`id_asamblea`),
+  CONSTRAINT `asamblea_acta` FOREIGN KEY (`id_asamblea`) REFERENCES `asamblea` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `acta`
+--
+
+LOCK TABLES `acta` WRITE;
+/*!40000 ALTER TABLE `acta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `acta` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `asamblea`
+--
+
+DROP TABLE IF EXISTS `asamblea`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asamblea` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(0) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `lugar` varchar(0) DEFAULT NULL,
+  `descripcion` varchar(0) DEFAULT NULL,
+  `es_abierta` tinyint(4) DEFAULT NULL,
+  `url_streaming` varchar(0) DEFAULT NULL,
+  `url_asamblea` varchar(0) DEFAULT NULL,
+  `id_usuario_crea` int(11) NOT NULL,
+  `id_organizacion_convoca` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `crea` (`id_usuario_crea`),
+  KEY `convoca` (`id_organizacion_convoca`),
+  CONSTRAINT `convoca` FOREIGN KEY (`id_organizacion_convoca`) REFERENCES `organizacion` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `crea` FOREIGN KEY (`id_usuario_crea`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `asamblea`
+--
+
+LOCK TABLES `asamblea` WRITE;
+/*!40000 ALTER TABLE `asamblea` DISABLE KEYS */;
+/*!40000 ALTER TABLE `asamblea` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `asamblea_tiene_responsabilidad`
+--
+
+DROP TABLE IF EXISTS `asamblea_tiene_responsabilidad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asamblea_tiene_responsabilidad` (
+  `id_asamblea` int(11) NOT NULL,
+  `id_responsabilidad` int(11) NOT NULL,
+  PRIMARY KEY (`id_asamblea`,`id_responsabilidad`),
+  KEY `responsabilidad_r` (`id_responsabilidad`),
+  CONSTRAINT `asamblea_r` FOREIGN KEY (`id_asamblea`) REFERENCES `asamblea` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `responsabilidad_r` FOREIGN KEY (`id_responsabilidad`) REFERENCES `responsabilidad` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `asamblea_tiene_responsabilidad`
+--
+
+LOCK TABLES `asamblea_tiene_responsabilidad` WRITE;
+/*!40000 ALTER TABLE `asamblea_tiene_responsabilidad` DISABLE KEYS */;
+/*!40000 ALTER TABLE `asamblea_tiene_responsabilidad` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `documento`
+--
+
+DROP TABLE IF EXISTS `documento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `documento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `id_asamblea` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `asamblea_documento` (`id_asamblea`),
+  CONSTRAINT `asamblea_documento` FOREIGN KEY (`id_asamblea`) REFERENCES `asamblea` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `documento`
+--
+
+LOCK TABLES `documento` WRITE;
+/*!40000 ALTER TABLE `documento` DISABLE KEYS */;
+/*!40000 ALTER TABLE `documento` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `grupo`
+--
+
+DROP TABLE IF EXISTS `grupo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grupo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `id_organizacion` int(11) NOT NULL,
+  `id_usuario_administrador` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `organizacion_grupo` (`id_organizacion`),
+  KEY `admin_grupo` (`id_usuario_administrador`),
+  CONSTRAINT `admin_grupo` FOREIGN KEY (`id_usuario_administrador`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `organizacion_grupo` FOREIGN KEY (`id_organizacion`) REFERENCES `organizacion` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `grupo`
+--
+
+LOCK TABLES `grupo` WRITE;
+/*!40000 ALTER TABLE `grupo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grupo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `invita`
+--
+
+DROP TABLE IF EXISTS `invita`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `invita` (
+  `usuario` int(11) NOT NULL,
+  `asamblea` int(11) NOT NULL,
+  `usuario_invitado` int(11) NOT NULL,
+  PRIMARY KEY (`usuario`,`asamblea`,`usuario_invitado`),
+  CONSTRAINT `invita` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `participa` FOREIGN KEY (`usuario`, `asamblea`) REFERENCES `participa` (`id_usuario`, `id_asamblea`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `invita`
+--
+
+LOCK TABLES `invita` WRITE;
+/*!40000 ALTER TABLE `invita` DISABLE KEYS */;
+/*!40000 ALTER TABLE `invita` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mensaje`
+--
+
+DROP TABLE IF EXISTS `mensaje`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mensaje` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `texto` varchar(255) DEFAULT NULL,
+  `id_usuario_envia` int(11) NOT NULL,
+  `id_usuario_recibe` int(11) DEFAULT NULL,
+  `id_grupo_recibe` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `usuario_envia` (`id_usuario_envia`),
+  KEY `usuario_recibe` (`id_usuario_recibe`),
+  KEY `grupo_recibe` (`id_grupo_recibe`),
+  CONSTRAINT `grupo_recibe` FOREIGN KEY (`id_grupo_recibe`) REFERENCES `grupo` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `usuario_envia` FOREIGN KEY (`id_usuario_envia`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `usuario_recibe` FOREIGN KEY (`id_usuario_recibe`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mensaje`
+--
+
+LOCK TABLES `mensaje` WRITE;
+/*!40000 ALTER TABLE `mensaje` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mensaje` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `organizacion`
+--
+
+DROP TABLE IF EXISTS `organizacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `organizacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(0) NOT NULL,
+  `tematica` varchar(255) DEFAULT NULL,
+  `logo` varchar(0) DEFAULT NULL,
+  `descripcion` varchar(0) DEFAULT NULL,
+  `facebook_id` varchar(255) DEFAULT NULL,
+  `gplus_id` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `web` varchar(0) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `organizacion`
+--
+
+LOCK TABLES `organizacion` WRITE;
+/*!40000 ALTER TABLE `organizacion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `organizacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `participa`
+--
+
+DROP TABLE IF EXISTS `participa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `participa` (
+  `id_usuario` int(11) NOT NULL,
+  `id_asamblea` int(11) NOT NULL,
+  PRIMARY KEY (`id_usuario`,`id_asamblea`),
+  KEY `asamblea` (`id_asamblea`),
+  CONSTRAINT `asamblea` FOREIGN KEY (`id_asamblea`) REFERENCES `asamblea` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `participa`
+--
+
+LOCK TABLES `participa` WRITE;
+/*!40000 ALTER TABLE `participa` DISABLE KEYS */;
+/*!40000 ALTER TABLE `participa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `punto_orden_dia`
+--
+
+DROP TABLE IF EXISTS `punto_orden_dia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `punto_orden_dia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orden` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `descripcion` varchar(0) DEFAULT NULL,
+  `tratado` tinyint(4) DEFAULT NULL,
+  `id_asamblea` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `asamblea_punto` (`id_asamblea`),
+  CONSTRAINT `asamblea_punto` FOREIGN KEY (`id_asamblea`) REFERENCES `asamblea` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `punto_orden_dia`
+--
+
+LOCK TABLES `punto_orden_dia` WRITE;
+/*!40000 ALTER TABLE `punto_orden_dia` DISABLE KEYS */;
+/*!40000 ALTER TABLE `punto_orden_dia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `responsabilidad`
+--
+
+DROP TABLE IF EXISTS `responsabilidad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `responsabilidad` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  `tipo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `responsabilidad`
+--
+
+LOCK TABLES `responsabilidad` WRITE;
+/*!40000 ALTER TABLE `responsabilidad` DISABLE KEYS */;
+/*!40000 ALTER TABLE `responsabilidad` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `responsabilidad_realiza`
+--
+
+DROP TABLE IF EXISTS `responsabilidad_realiza`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `responsabilidad_realiza` (
+  `id_responsabilidad` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_asamblea` int(11) NOT NULL,
+  PRIMARY KEY (`id_responsabilidad`,`id_usuario`,`id_asamblea`),
+  KEY `participa_realiza` (`id_usuario`,`id_asamblea`),
+  CONSTRAINT `participa_realiza` FOREIGN KEY (`id_usuario`, `id_asamblea`) REFERENCES `participa` (`id_usuario`, `id_asamblea`) ON UPDATE CASCADE,
+  CONSTRAINT `responsabilidad_realiza` FOREIGN KEY (`id_responsabilidad`) REFERENCES `responsabilidad` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `responsabilidad_realiza`
+--
+
+LOCK TABLES `responsabilidad_realiza` WRITE;
+/*!40000 ALTER TABLE `responsabilidad_realiza` DISABLE KEYS */;
+/*!40000 ALTER TABLE `responsabilidad_realiza` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `turno_palabra`
+--
+
+DROP TABLE IF EXISTS `turno_palabra`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `turno_palabra` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(0) NOT NULL,
+  `duracion` time DEFAULT NULL,
+  `duracion_estimada` time DEFAULT NULL,
+  `orden` int(11) NOT NULL,
+  `realizado` tinyint(4) DEFAULT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_asamblea` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `participa_turno` (`id_usuario`,`id_asamblea`),
+  KEY `id` (`id`),
+  CONSTRAINT `participa_turno` FOREIGN KEY (`id_usuario`, `id_asamblea`) REFERENCES `participa` (`id_usuario`, `id_asamblea`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `turno_palabra`
+--
+
+LOCK TABLES `turno_palabra` WRITE;
+/*!40000 ALTER TABLE `turno_palabra` DISABLE KEYS */;
+/*!40000 ALTER TABLE `turno_palabra` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `turno_palabra_sobre_punto_orden_dia`
+--
+
+DROP TABLE IF EXISTS `turno_palabra_sobre_punto_orden_dia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `turno_palabra_sobre_punto_orden_dia` (
+  `id_turno_palabra` int(11) NOT NULL,
+  `id_punto_orden_dia` int(11) NOT NULL,
+  PRIMARY KEY (`id_turno_palabra`,`id_punto_orden_dia`),
+  KEY `punto_s` (`id_punto_orden_dia`),
+  CONSTRAINT `punto_s` FOREIGN KEY (`id_punto_orden_dia`) REFERENCES `punto_orden_dia` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `turno_palabra_s` FOREIGN KEY (`id_turno_palabra`) REFERENCES `turno_palabra` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `turno_palabra_sobre_punto_orden_dia`
+--
+
+LOCK TABLES `turno_palabra_sobre_punto_orden_dia` WRITE;
+/*!40000 ALTER TABLE `turno_palabra_sobre_punto_orden_dia` DISABLE KEYS */;
+/*!40000 ALTER TABLE `turno_palabra_sobre_punto_orden_dia` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario`
+--
+
+DROP TABLE IF EXISTS `usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pass` varchar(255) NOT NULL,
+  `nombre` varchar(0) NOT NULL,
+  `apellidos` varchar(0) DEFAULT NULL,
+  `fecha_nac` date DEFAULT NULL,
+  `telefono` varchar(255) DEFAULT NULL,
+  `email` varchar(0) NOT NULL,
+  `localidad` varchar(255) DEFAULT NULL,
+  `pais` varchar(255) DEFAULT NULL,
+  `bio` varchar(0) DEFAULT NULL,
+  `imagen_perfil` varchar(0) DEFAULT NULL,
+  `facebook_id` int(11) DEFAULT NULL,
+  `twitter_id` int(11) DEFAULT NULL,
+  `gplus_id` int(11) DEFAULT NULL,
+  `puntos_exp` int(11) NOT NULL DEFAULT '0',
+  `nivel` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario`
+--
+
+LOCK TABLES `usuario` WRITE;
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario_pertenece_grupo`
+--
+
+DROP TABLE IF EXISTS `usuario_pertenece_grupo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuario_pertenece_grupo` (
+  `id_usuario` int(11) NOT NULL,
+  `id_grupo` int(11) NOT NULL,
+  PRIMARY KEY (`id_usuario`,`id_grupo`),
+  KEY `pertenece_grupo` (`id_grupo`),
+  CONSTRAINT `pertenece_grupo` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `pertenece_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario_pertenece_grupo`
+--
+
+LOCK TABLES `usuario_pertenece_grupo` WRITE;
+/*!40000 ALTER TABLE `usuario_pertenece_grupo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuario_pertenece_grupo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario_pertenece_organizacion`
+--
+
+DROP TABLE IF EXISTS `usuario_pertenece_organizacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuario_pertenece_organizacion` (
+  `id_usuario` int(11) NOT NULL,
+  `id_organizacion` int(11) NOT NULL,
+  PRIMARY KEY (`id_usuario`,`id_organizacion`),
+  KEY `organizacion` (`id_organizacion`),
+  CONSTRAINT `organizacion` FOREIGN KEY (`id_organizacion`) REFERENCES `organizacion` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `usario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario_pertenece_organizacion`
+--
+
+LOCK TABLES `usuario_pertenece_organizacion` WRITE;
+/*!40000 ALTER TABLE `usuario_pertenece_organizacion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuario_pertenece_organizacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `votacion`
+--
+
+DROP TABLE IF EXISTS `votacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `votacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  `tiempo_votacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_usuario_crea` int(11) NOT NULL,
+  `id_asamblea` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `votacion_crea` (`id_usuario_crea`,`id_asamblea`),
+  CONSTRAINT `votacion_crea` FOREIGN KEY (`id_usuario_crea`, `id_asamblea`) REFERENCES `participa` (`id_usuario`, `id_asamblea`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `votacion`
+--
+
+LOCK TABLES `votacion` WRITE;
+/*!40000 ALTER TABLE `votacion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `votacion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `votacion_opcion`
+--
+
+DROP TABLE IF EXISTS `votacion_opcion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `votacion_opcion` (
+  `id_votacion` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_votacion`,`id`),
+  CONSTRAINT `votacion` FOREIGN KEY (`id_votacion`) REFERENCES `votacion` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `votacion_opcion`
+--
+
+LOCK TABLES `votacion_opcion` WRITE;
+/*!40000 ALTER TABLE `votacion_opcion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `votacion_opcion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `votacion_voto`
+--
+
+DROP TABLE IF EXISTS `votacion_voto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `votacion_voto` (
+  `id_usuario` int(11) NOT NULL,
+  `id_asamblea` int(11) NOT NULL,
+  `id_votacion` int(11) NOT NULL,
+  `id_opcion` int(11) NOT NULL,
+  PRIMARY KEY (`id_usuario`,`id_asamblea`,`id_votacion`,`id_opcion`),
+  KEY `vota` (`id_votacion`,`id_opcion`),
+  CONSTRAINT `participa_v` FOREIGN KEY (`id_usuario`, `id_asamblea`) REFERENCES `participa` (`id_usuario`, `id_asamblea`) ON UPDATE CASCADE,
+  CONSTRAINT `vota` FOREIGN KEY (`id_votacion`, `id_opcion`) REFERENCES `votacion_opcion` (`id_votacion`, `id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `votacion_voto`
+--
+
+LOCK TABLES `votacion_voto` WRITE;
+/*!40000 ALTER TABLE `votacion_voto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `votacion_voto` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2014-12-30  9:16:37
