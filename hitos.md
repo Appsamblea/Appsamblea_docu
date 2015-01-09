@@ -10,5 +10,5 @@
 - [X] Explicar sistema de despliegue
 
 ##PRÁCTICA 3:
-- [X] Entorno de pruebas
+- [X] Entorno de pruebas (Las pruebas se ejecutan en Shippable)
 - [ ] Scripts de pruebas 
