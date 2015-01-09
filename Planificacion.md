@@ -25,6 +25,7 @@ También hay que tener en cuenta los distintos hitos que aparezcan en la asignat
 
 ###Iteracion 3 - 18 de enero
 - Bocetos de alta fidelidad
+- Test para usuarios
 -	Pruebas con usuarios
 -	Implementar interfaz gráfica del cliente
 -	Implementar la interfaz gráfica de usuario del cliente en los XML
