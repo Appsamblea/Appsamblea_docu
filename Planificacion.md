@@ -24,10 +24,13 @@ También hay que tener en cuenta los distintos hitos que aparezcan en la asignat
 -	Recorridos cognitivos
 
 ###Iteracion 3 - 18 de enero
-- Bocetos de alta fidelidad
+- Prototipo de alta fidelidad
 - Test para usuarios
 -	Pruebas con usuarios
--	Implementar interfaz gráfica del cliente
+-	Implementar la base de datos
+-	Importar a clases las tablas
+
+###Iteración 4 - 8 de febrero
 -	Implementar la interfaz gráfica de usuario del cliente en los XML
 -	Implementar el fichero AndroidManifest
 
