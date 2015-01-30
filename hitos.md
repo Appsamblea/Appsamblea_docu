@@ -10,7 +10,7 @@
 - [X] Explicar sistema de despliegue
 - [X] Script de despliegue (shippable.yml)
 
-##HITO 3:
+###HITO 3:
 - [X] Entorno de pruebas (Google App Engine ya proporciona el entorno de pruebas por lo que no tiene demasiado sentido crear otro)
 - [X] Scripts de pruebas 
  
